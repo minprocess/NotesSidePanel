@@ -1,0 +1,15 @@
+{
+  "name": "Take Note",
+  "manifest_version": 3,
+  "version": "0.1",
+  "description": "Take notes for each tab in Microsoft Edge.",
+  "permissions": ["storage", "tabs", "sidePanel"],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
