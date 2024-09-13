@@ -20,3 +20,6 @@ The side panel is created with this kev-value pair in manifest.json
 
 This extension does not use content scripts or service workers. Just one JavaScript file is used: sidepanel.js
 
+Useful discussions of French accents on letters
+<https://mafrenchlife.com/french-accent-glossary/>
+<https://mafrenchlife.com/french-accents-qwerty-keyboard/>

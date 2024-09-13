@@ -1,4 +1,57 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+  function InsertSpecialCharacter(character) {
+    const textarea = document.getElementById('note');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const before = text.substring(0, start);
+    const after = text.substring(end, text.length);
+    textarea.value = before + character + after;
+    textarea.selectionStart = textarea.selectionEnd = start + 1;
+    textarea.focus();
+  }
+  
+  document.getElementById('insert-à').addEventListener('click', function() {
+    InsertSpecialCharacter('à');
+  });
+  
+  document.getElementById('insert-â').addEventListener('click', function() {
+    InsertSpecialCharacter('â');
+  });
+ 
+  document.getElementById('insert-æ').addEventListener('click', function() {
+    InsertSpecialCharacter('æ');
+  });
+ 
+  document.getElementById('insert-ç').addEventListener('click', function() {
+    InsertSpecialCharacter('ç');
+  });
+
+  document.getElementById('insert-é').addEventListener('click', function() {
+    InsertSpecialCharacter('é');
+  });
+
+  document.getElementById('insert-è').addEventListener('click', function() {
+    InsertSpecialCharacter('è');
+  });
+
+  document.getElementById('insert-œ').addEventListener('click', function() {
+    InsertSpecialCharacter('œ');
+  });
+
+  document.getElementById('insert-e-aigu').addEventListener('click', function() {
+    const textarea = document.getElementById('note');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const before = text.substring(0, start);
+    const after = text.substring(end, text.length);
+    textarea.value = before + 'é' + after;
+    textarea.selectionStart = textarea.selectionEnd = start + 1;
+    textarea.focus();
+  });
+
   // Get the current tab ID
   const queryOptions = { active: true, currentWindow: true };
   chrome.tabs.query(queryOptions, function (tabs) {
