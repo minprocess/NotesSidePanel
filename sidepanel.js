@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('language-select').addEventListener('change', function() {
+    const selectedLang = this.value;
+    document.getElementById('note').setAttribute('lang', selectedLang);
+  });
 
   function InsertSpecialCharacter(character) {
     const textarea = document.getElementById('note');
