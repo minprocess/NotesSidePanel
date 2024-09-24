@@ -20,6 +20,10 @@ The side panel is created with this kev-value pair in manifest.json
 
 This extension does not use content scripts or service workers. Just one JavaScript file is used: sidepanel.js
 
+The following website has a wide variety of of online keyboards such as Pinyin and IPA (International Phonetic Alphabet)
+https://www.typeit.org/
+
 Useful discussions of French accents on letters
+
 <https://mafrenchlife.com/french-accent-glossary/>
 <https://mafrenchlife.com/french-accents-qwerty-keyboard/>

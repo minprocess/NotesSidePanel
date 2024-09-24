@@ -15,7 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
     textarea.selectionStart = textarea.selectionEnd = start + 1;
     textarea.focus();
   }
-  
+
+const accentarr = ['à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'ï', 'î', 'ô', 'œ',
+'ù', 'û', 'ü', 'ÿ', '€', '“', '”', '«', '»']
+
+
+  const accentButtonsDiv = document.getElementById('accent-buttons');
+
+  accentarr.forEach(character => {
+    const button = document.createElement('button');
+    button.textContent = character;
+    button.addEventListener('click', function() {
+      InsertSpecialCharacter(character);
+    });
+    accentButtonsDiv.appendChild(button);
+  });
+
+/*
   document.getElementById('insert-à').addEventListener('click', function() {
     InsertSpecialCharacter('à');
   });
@@ -43,29 +59,20 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('insert-œ').addEventListener('click', function() {
     InsertSpecialCharacter('œ');
   });
-
-  document.getElementById('insert-e-aigu').addEventListener('click', function() {
-    const textarea = document.getElementById('note');
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    const before = text.substring(0, start);
-    const after = text.substring(end, text.length);
-    textarea.value = before + 'é' + after;
-    textarea.selectionStart = textarea.selectionEnd = start + 1;
-    textarea.focus();
-  });
-
+*/
   // Get the current tab ID
   const queryOptions = { active: true, currentWindow: true };
   chrome.tabs.query(queryOptions, function (tabs) {
     const tabId = tabs[0].id;
-
+    console.log('title ', tabs[0].title)
     // Load the saved note for the current tab
+
     chrome.storage.local.get([`note_${tabId}`], function (result) {
       const noteTextarea = document.getElementById('note');
-      noteTextarea.value = result[`note_${tabId}`] || '';
+      noteTextarea.value = result[`note_${tabId}`] || 'Hello world';
+
     });
+
   }); // chrome.tabs.query
 
   // Save the note when the button is clicked
@@ -83,6 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Handle tab activation
   chrome.tabs.onActivated.addListener(function (activeInfo) {
     chrome.storage.local.get([`note_${activeInfo.tabId}`], function (result) {
+      console.log('note array')
+      console.log(result)
       const noteTextarea = document.getElementById('note');
       noteTextarea.value = result[`note_${activeInfo.tabId}`] || '';
     });
