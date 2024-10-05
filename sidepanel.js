@@ -15,9 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
     textarea.selectionStart = textarea.selectionEnd = start + 1;
     textarea.focus();
   }
+  const accentarr = 'àâæçéèêëïîôœùûüÿ€“”«»'.split('');
+  const accentarrUC = 'ÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ€“”«»'.split('');
 
-const accentarr = ['à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'ï', 'î', 'ô', 'œ',
-'ù', 'û', 'ü', 'ÿ', '€', '“', '”', '«', '»']
+  //const accentarr = ['à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'ï', 'î', 'ô', 'œ',
+  //'ù', 'û', 'ü', 'ÿ', '€', '“', '”', '«', '»']
 
 
   const accentButtonsDiv = document.getElementById('accent-buttons');
@@ -31,35 +33,6 @@ const accentarr = ['à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'ï', 'î', '
     accentButtonsDiv.appendChild(button);
   });
 
-/*
-  document.getElementById('insert-à').addEventListener('click', function() {
-    InsertSpecialCharacter('à');
-  });
-  
-  document.getElementById('insert-â').addEventListener('click', function() {
-    InsertSpecialCharacter('â');
-  });
- 
-  document.getElementById('insert-æ').addEventListener('click', function() {
-    InsertSpecialCharacter('æ');
-  });
- 
-  document.getElementById('insert-ç').addEventListener('click', function() {
-    InsertSpecialCharacter('ç');
-  });
-
-  document.getElementById('insert-é').addEventListener('click', function() {
-    InsertSpecialCharacter('é');
-  });
-
-  document.getElementById('insert-è').addEventListener('click', function() {
-    InsertSpecialCharacter('è');
-  });
-
-  document.getElementById('insert-œ').addEventListener('click', function() {
-    InsertSpecialCharacter('œ');
-  });
-*/
   // Get the current tab ID
   const queryOptions = { active: true, currentWindow: true };
   chrome.tabs.query(queryOptions, function (tabs) {
