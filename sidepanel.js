@@ -1,28 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('language-select').addEventListener('change', function() {
-    const selectedLang = this.value;
-    document.getElementById('note').setAttribute('lang', selectedLang);
-  });
-
-  function InsertSpecialCharacter(character) {
-    const textarea = document.getElementById('note');
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    const before = text.substring(0, start);
-    const after = text.substring(end, text.length);
-    textarea.value = before + character + after;
-    textarea.selectionStart = textarea.selectionEnd = start + 1;
-    textarea.focus();
-  }
+  const noteTextarea = document.getElementById('note');
+  const saveButton = document.getElementById('save');
+  
   const accentarr = 'àâæçéèêëïîôœùûüÿ€“”«»'.split('');
   const accentarrUC = 'ÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ€“”«»'.split('');
 
-  //const accentarr = ['à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'ï', 'î', 'ô', 'œ',
-  //'ù', 'û', 'ü', 'ÿ', '€', '“', '”', '«', '»']
-
-
   const accentButtonsDiv = document.getElementById('accent-buttons');
+
+  // 'language-select' is a drop down menu
+  document.getElementById('language-select').addEventListener('change', function() {
+    const selectedLang = this.value;
+    noteTextarea.setAttribute('lang', selectedLang);
+  });
+
+  function InsertSpecialCharacter(character) {
+    const start = noteTextarea.selectionStart;
+    const end = noteTextarea.selectionEnd;
+    const text = noteTextarea.value;
+    const before = text.substring(0, start);
+    const after = text.substring(end, text.length);
+    noteTextarea.value = before + character + after;
+    noteTextarea.selectionStart = noteTextarea.selectionEnd = start + 1;
+    noteTextarea.focus();
+  }
 
   accentarr.forEach(character => {
     const button = document.createElement('button');
@@ -37,37 +37,36 @@ document.addEventListener('DOMContentLoaded', function () {
   const queryOptions = { active: true, currentWindow: true };
   chrome.tabs.query(queryOptions, function (tabs) {
     const tabId = tabs[0].id;
-    console.log('title ', tabs[0].title)
+
     // Load the saved note for the current tab
-
     chrome.storage.local.get([`note_${tabId}`], function (result) {
-      const noteTextarea = document.getElementById('note');
       noteTextarea.value = result[`note_${tabId}`] || 'Hello world';
-
     });
+  }); // end of chrome.tabs.query
 
-  }); // chrome.tabs.query
-
-  // Save the note when the button is clicked
-  const saveButton = document.getElementById('save'); 
+  // Save the note when the Save Note button is clicked
   saveButton.addEventListener('click', function () {
     const queryOptions = { active: true, currentWindow: true };
     // `tab` will either be a `tabs.Tab` instance or `undefined`.
     chrome.tabs.query(queryOptions, function(tabs) {
-      const tabId = tabs[0].id
-      const noteTextarea = document.getElementById('note');
+      const tabId = tabs[0].id;
       chrome.storage.local.set({ [`note_${tabId}`]: noteTextarea.value });  
     });
+    noteTextarea.classList.remove('focused');
+    // ToDo: Disable the Save button
   });
 
   // Handle tab activation
   chrome.tabs.onActivated.addListener(function (activeInfo) {
+    // ToDo: remove 'focused' class from noteTextarea
     chrome.storage.local.get([`note_${activeInfo.tabId}`], function (result) {
-      console.log('note array')
-      console.log(result)
-      const noteTextarea = document.getElementById('note');
       noteTextarea.value = result[`note_${activeInfo.tabId}`] || '';
     });
   });
 
-}); // document.addEventListener
+  noteTextarea.addEventListener('click', function() {
+    // ToDo: Enable the Save button
+    noteTextarea.classList.add('focused');
+  });
+
+}); // End of document.addEventListener('DOMContentLoaded', ... )
