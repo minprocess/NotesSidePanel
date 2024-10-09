@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabId = tabs[0].id;
 
     // Load the saved note for the current tab
+    console.log(`chrome.tabs.query note_${tabId}`);
     chrome.storage.local.get([`note_${tabId}`], function (result) {
       noteTextarea.value = result[`note_${tabId}`] || 'Hello world';
     });
@@ -52,13 +53,18 @@ document.addEventListener('DOMContentLoaded', function () {
       const tabId = tabs[0].id;
       chrome.storage.local.set({ [`note_${tabId}`]: noteTextarea.value });  
     });
-    noteTextarea.classList.remove('focused');
+    if (noteTextarea.classList.contains('focused')) {
+      noteTextarea.classList.remove('focused');
+    }
     // ToDo: Disable the Save button
   });
 
   // Handle tab activation
   chrome.tabs.onActivated.addListener(function (activeInfo) {
-    // ToDo: remove 'focused' class from noteTextarea
+    console.log(`chrome.tabs.onActivated tabId: ${activeInfo.tabId}`);
+    if (noteTextarea.classList.contains('focused')) {
+      noteTextarea.classList.remove('focused');
+    }
     chrome.storage.local.get([`note_${activeInfo.tabId}`], function (result) {
       noteTextarea.value = result[`note_${activeInfo.tabId}`] || '';
     });
@@ -66,7 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   noteTextarea.addEventListener('click', function() {
     // ToDo: Enable the Save button
-    noteTextarea.classList.add('focused');
+    if (!noteTextarea.classList.contains('focused')) {
+      noteTextarea.classList.add('focused');
+    } 
   });
 
 }); // End of document.addEventListener('DOMContentLoaded', ... )
