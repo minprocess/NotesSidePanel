@@ -2,10 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const noteTextarea = document.getElementById('note');
   const saveButton = document.getElementById('save');
   
-  const accentarr = 'àâæçéèêëïîôœùûüÿ€“”«»'.split('');
-  const accentarrUC = 'ÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ€“”«»'.split('');
+  const accentarr = 'àâæçéèêëïîôœùûüÿ€""«»'.split('');
+  const accentarrUC = 'ÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ€""«»'.split('');
 
   const accentButtonsDiv = document.getElementById('accent-buttons');
+  let isShiftPressed = false;
 
   // 'language-select' is a drop down menu
   document.getElementById('language-select').addEventListener('change', function() {
@@ -13,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     noteTextarea.setAttribute('lang', selectedLang);
   });
 
-  function InsertSpecialCharacter(character) {
+  function InsertSpecialCharacter(index) {
+    const character = isShiftPressed ? accentarrUC[index] : accentarr[index];
     const start = noteTextarea.selectionStart;
     const end = noteTextarea.selectionEnd;
     const text = noteTextarea.value;
@@ -24,11 +26,32 @@ document.addEventListener('DOMContentLoaded', function () {
     noteTextarea.focus();
   }
 
-  accentarr.forEach(character => {
+  function updateButtonTexts() {
+    const buttons = accentButtonsDiv.getElementsByTagName('button');
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].textContent = isShiftPressed ? accentarrUC[i] : accentarr[i];
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Shift' && !isShiftPressed) {
+      isShiftPressed = true;
+      updateButtonTexts();
+    }
+  });
+
+  document.addEventListener('keyup', function(e) {
+    if (e.key === 'Shift') {
+      isShiftPressed = false;
+      updateButtonTexts();
+    }
+  });
+
+  accentarr.forEach((character, index) => {
     const button = document.createElement('button');
     button.textContent = character;
     button.addEventListener('click', function() {
-      InsertSpecialCharacter(character);
+      InsertSpecialCharacter(index);
     });
     accentButtonsDiv.appendChild(button);
   });
