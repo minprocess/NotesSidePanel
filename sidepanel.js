@@ -107,8 +107,8 @@ document.addEventListener('DOMContentLoaded', function () {
   noteTextarea.addEventListener('keydown', function(e) {
     const key = e.key.toLowerCase();
     
-    // Check if it's a mappable character
-    if (accentMappings[key]) {
+    // Only show popup if Alt key is pressed and it's a mappable character
+    if (e.altKey && accentMappings[key]) {
       if (pressedKeys.has(key)) {
         e.preventDefault();
         return;
