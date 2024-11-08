@@ -10,30 +10,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Accent mappings for supported characters
   const accentMappings = {
-    'e': [
-      { char: 'è', number: 1 },
-      { char: 'ê', number: 2 },
-      { char: 'ë', number: 3 }
+    'a': [
+      { char: 'ç', number: 1 }
     ],
     'a': [
       { char: 'à', number: 1 },
-      { char: 'â', number: 2 },
-      { char: 'ä', number: 3 }
+      { char: 'â', number: 2 }
+    ],
+    'e': [
+      { char: 'é', number: 1 },
+      { char: 'è', number: 2 },
+      { char: 'ê', number: 3 },
+      { char: 'ë', number: 4 }
     ],
     'i': [
-      { char: 'ì', number: 1 },
-      { char: 'î', number: 2 },
-      { char: 'ï', number: 3 }
+      { char: 'ï', number: 1 },
+      { char: 'î', number: 2 }
+
     ],
     'o': [
-      { char: 'ò', number: 1 },
-      { char: 'ô', number: 2 },
-      { char: 'ö', number: 3 }
+      { char: 'ô', number: 2 }
     ],
     'u': [
       { char: 'ù', number: 1 },
       { char: 'û', number: 2 },
       { char: 'ü', number: 3 }
+    ],
+    'y': [
+      { char: 'ÿ', number: 2 }
     ]
   };
 
