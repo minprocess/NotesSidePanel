@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Accent mappings for supported characters
   const accentMappings = {
     'a': [
-      { char: 'ç', number: 1 }
-    ],
-    'c': [
       { char: 'à', number: 1 },
       { char: 'â', number: 2 }
+    ],
+    'c': [
+      { char: 'ç', number: 1 }
     ],
     'e': [
       { char: 'é', number: 1 },
