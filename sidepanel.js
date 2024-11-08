@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     'a': [
       { char: 'ç', number: 1 }
     ],
-    'a': [
+    'c': [
       { char: 'à', number: 1 },
       { char: 'â', number: 2 }
     ],
