@@ -6,15 +6,38 @@ body {
 }
 
 /* Default textarea properties */
-#note {
+#note, #translated-note {
   border: 2px solid #a7a7abaa; /* Light gray border */
   width: 100%;
   height: 300px;
   outline: none;
+  margin-bottom: 10px;
+}
+
+#translated-note {
+  background-color: #f5f5f5;
 }
 
 #note.focused {
   border: 2px solid #f60000; /* Change this to your desired color */
+}
+
+/* Button styles */
+#translate-button, #save {
+  padding: 8px 16px;
+  margin: 10px 0;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: block;
+  width: 100%;
+}
+
+#translate-button:hover, #save:hover {
+  background-color: #45a049;
 }
 
 /* Accent popup styles */

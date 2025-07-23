@@ -1,12 +1,41 @@
 document.addEventListener('DOMContentLoaded', function () {
   const noteTextarea = document.getElementById('note');
+  const translatedTextarea = document.getElementById('translated-note');
   const saveButton = document.getElementById('save');
+  const translateButton = document.getElementById('translate-button');
+  const languageSelect = document.getElementById('language-select');
   
   const accentarr = 'àâæçéèêëïîôœùûüÿ€""«»'.split('');
   const accentarrUC = 'ÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ€""«»'.split('');
 
   const accentButtonsDiv = document.getElementById('accent-buttons');
   let isShiftPressed = false;
+
+  // Translation functionality
+  translateButton.addEventListener('click', async function() {
+    const text = noteTextarea.value;
+    const targetLang = languageSelect.value;
+    
+    if (!text.trim()) {
+      translatedTextarea.value = '';
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+      const data = await response.json();
+      
+      // Extract translated text from the response
+      const translatedText = data[0]
+        .map(item => item[0])
+        .join('');
+      
+      translatedTextarea.value = translatedText;
+    } catch (error) {
+      translatedTextarea.value = 'Translation error. Please try again.';
+      console.error('Translation error:', error);
+    }
+  });
 
   // Accent mappings for supported characters
   const accentMappings = {
@@ -26,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
     'i': [
       { char: 'ï', number: 1 },
       { char: 'î', number: 2 }
-
     ],
     'o': [
       { char: 'ô', number: 2 }
@@ -245,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 'language-select' is a drop down menu
-  document.getElementById('language-select').addEventListener('change', function() {
+  languageSelect.addEventListener('change', function() {
     const selectedLang = this.value;
     noteTextarea.setAttribute('lang', selectedLang);
   });
