@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const noteTextarea = document.getElementById('note');
   const translatedTextarea = document.getElementById('translated-note');
-  const saveButton = document.getElementById('save');
   const translateButton = document.getElementById('translate-button');
   const languageSelect = document.getElementById('language-select');
   
@@ -278,6 +277,18 @@ document.addEventListener('DOMContentLoaded', function () {
     noteTextarea.setAttribute('lang', selectedLang);
   });
 
+  // Auto-save timeout for debouncing
+  let saveTimeout;
+
+  // Shared save function
+  function saveNote() {
+    const queryOptions = { active: true, currentWindow: true };
+    chrome.tabs.query(queryOptions, function(tabs) {
+      const tabId = tabs[0].id;
+      chrome.storage.local.set({ [`note_${tabId}`]: noteTextarea.value });
+    });
+  }
+
   // Get the current tab ID
   const queryOptions = { active: true, currentWindow: true };
   chrome.tabs.query(queryOptions, function (tabs) {
@@ -290,16 +301,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Save the note when the Save Note button is clicked
-  saveButton.addEventListener('click', function () {
-    const queryOptions = { active: true, currentWindow: true };
-    chrome.tabs.query(queryOptions, function(tabs) {
-      const tabId = tabs[0].id;
-      chrome.storage.local.set({ [`note_${tabId}`]: noteTextarea.value });  
-    });
-    if (noteTextarea.classList.contains('focused')) {
-      noteTextarea.classList.remove('focused');
-    }
+  // Auto-save: Debounced save while typing (500ms after last keystroke)
+  noteTextarea.addEventListener('input', function() {
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(saveNote, 500);
+  });
+
+  // Auto-save: Save immediately when textarea loses focus
+  noteTextarea.addEventListener('blur', function() {
+    clearTimeout(saveTimeout); // Cancel any pending debounced save
+    saveNote(); // Save immediately
   });
 
   // Handle tab activation
